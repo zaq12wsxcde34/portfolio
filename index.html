@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>KAPISH ADLAKHA | AI & IoT Developer</title>
-  <meta name="description" content="Portfolio of Kapish Adlakha, AI & IoT developer from India.">
 
   <style>
     :root {
@@ -18,38 +17,21 @@
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); }
     html { scroll-behavior: smooth; }
 
-    body {
-      font-family: 'Inter', sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      overflow-x: hidden;
-    }
+    .container { max-width: 1100px; margin: auto; padding: 20px; }
 
-    .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
-
-    /* Header */
     header {
       position: fixed;
       width: 100%;
       backdrop-filter: blur(10px);
       background: rgba(10,10,15,0.7);
-      border-bottom: 1px solid var(--border);
       transform: translateY(-100%);
       z-index: 100;
     }
 
-    nav {
-      display: flex;
-      justify-content: space-between;
-      padding: 20px 0;
-    }
-
-    .logo {
-      font-weight: 800;
-      font-size: 1.2rem;
-    }
+    nav { display: flex; justify-content: space-between; }
 
     .logo span {
       background: linear-gradient(90deg, var(--accent), var(--accent-2));
@@ -57,61 +39,55 @@
       -webkit-text-fill-color: transparent;
     }
 
-    nav ul { display: flex; gap: 30px; list-style: none; }
-    nav a { color: var(--muted); text-decoration: none; }
+    nav ul { display: flex; gap: 20px; list-style: none; }
 
-    /* Hero */
-    .hero {
-      height: 100vh;
-      display: flex;
-      align-items: center;
-    }
+    section { padding: 120px 0; }
 
-    .hero h1 {
-      font-size: 4rem;
-      line-height: 1.1;
-    }
+    .hero { height: 100vh; display: flex; align-items: center; }
 
-    .hero p {
-      margin: 20px 0;
-      color: var(--muted);
+    .hero h1 { font-size: 4rem; }
+
+    .tagline {
+      font-size: 1.5rem;
+      background: linear-gradient(90deg, var(--accent), var(--accent-2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-top: 10px;
     }
 
     .btn {
-      padding: 14px 28px;
+      margin-top: 20px;
+      padding: 12px 25px;
       background: var(--accent);
-      border-radius: 10px;
-      color: white;
+      border-radius: 8px;
       text-decoration: none;
-      display: inline-block;
+      color: white;
     }
-
-    section { padding: 100px 0; }
 
     .grid {
       display: grid;
-      gap: 20px;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 25px;
     }
 
     .card {
       background: var(--card);
-      padding: 25px;
+      padding: 20px;
       border-radius: 12px;
-      border: 1px solid var(--border);
-      transition: 0.3s;
+      transition: 0.4s;
+    }
+
+    .card img {
+      width: 100%;
+      border-radius: 10px;
+      margin-bottom: 10px;
     }
 
     .card:hover {
-      transform: translateY(-10px) scale(1.02);
-      border-color: var(--accent);
+      transform: translateY(-10px) scale(1.05);
     }
 
-    footer {
-      text-align: center;
-      padding: 40px;
-      color: var(--muted);
-    }
+    footer { text-align: center; padding: 40px; }
 
   </style>
 </head>
@@ -124,7 +100,7 @@
       <div class="logo">KAPISH <span>ADLAKHA</span></div>
       <ul>
         <li><a href="#about">About</a></li>
-        <li><a href="#work">Work</a></li>
+        <li><a href="#work">Projects</a></li>
         <li><a href="#contact">Contact</a></li>
       </ul>
     </nav>
@@ -135,70 +111,25 @@
 
 <section class="hero">
   <div class="container">
-    <h1>
-      AI Developer &<br>
-      IoT Engineer
-    </h1>
-    <p>
-      I build intelligent systems combining AI, IoT, and modern web technologies.
-    </p>
-    <a href="#work" class="btn">View Work</a>
+    <h1>AI Developer & IoT Engineer</h1>
+    <div class="tagline">Building the Future with Intelligent Systems 🚀</div>
+    <p>I design and develop real-world systems combining AI, electronics, and software.</p>
+    <a href="#work" class="btn">Explore Projects</a>
   </div>
 </section>
 
 <section id="about" class="container">
   <h2>About Me</h2>
   <p>
-    I'm Kapish Adlakha, a B.Tech ECE student specializing in AI & IoT. Passionate about building real-world tech solutions and exploring cybersecurity.
+    I'm Kapish Adlakha, an engineering student passionate about AI, IoT, and cybersecurity.
+    I enjoy building real-world systems that solve practical problems.
   </p>
 </section>
 
 <section id="work" class="container">
   <h2>Projects</h2>
   <div class="grid">
+
     <div class="card">
-      <h3>IoT Smart System</h3>
-      <p>Sensor-based automation project using Arduino.</p>
-    </div>
-    <div class="card">
-      <h3>AI Chatbot</h3>
-      <p>Basic NLP chatbot using Python.</p>
-    </div>
-    <div class="card">
-      <h3>Web Dashboard</h3>
-      <p>Interactive dashboard using React.</p>
-    </div>
-  </div>
-</section>
-
-<section id="contact" class="container">
-  <h2>Contact</h2>
-  <p>Email: kaithalrksd@gmail.com</p>
-</section>
-
-</main>
-
-<footer>
-  <p>© 2026 KAPISH ADLAKHA</p>
-</footer>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-
-<script>
-  gsap.to("header", { y: 0, duration: 1 });
-
-  gsap.from(".hero h1", { opacity: 0, y: 50, duration: 1 });
-  gsap.from(".hero p", { opacity: 0, y: 30, delay: 0.3 });
-
-  gsap.utils.toArray(".card").forEach(card => {
-    gsap.from(card, {
-      scrollTrigger: card,
-      opacity: 0,
-      y: 50,
-      duration: 0.8
-    });
-  });
-</script>
-
-</body>
-</html>
+      <img src="https://source.unsplash.com/400x300/?agriculture,soil" />
+      <h3>S
