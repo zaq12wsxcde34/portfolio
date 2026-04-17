@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your Name | Creative Developer</title>
+  <style>
+    :root {
+      --bg: #0a0a0f;
+      --card: #12121a;
+      --text: #f2f4f8;
+      --muted: #8b90a0;
+      --accent: #7c6cff;
+      --accent-2: #00d4ff;
+      --border: #1f2130;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
+    }
+    .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+
+    /* Cursor follower */
+    .cursor {
+      position: fixed; width: 20px; height: 20px; border: 2px solid var(--accent);
+      border-radius: 50%; pointer-events: none; z-index: 9999; mix-blend-mode: difference;
+      transform: translate(-50%, -50%); transition: width .2s, height .2s; opacity: 0;
+    }
+    body:hover .cursor { opacity: 1; }
+    .cursor.grow { width: 50px; height: 50px; background: rgba(124,108,255,0.1); }
+
+    /* Header */
+    header {
+      position: fixed; top: 0; width: 100%; z-index: 100;
+      backdrop-filter: blur(12px); background: rgba(10,10,15,0.6);
+      border-bottom: 1px solid var(--border);
+      transform: translateY(-100%);
+    }
+    nav { display: flex; justify-content: space-between; align-items: center; padding: 20px 0; }
+    .logo { font-weight: 800; font-size: 1.3rem; letter-spacing: -0.5px; }
+    .logo span { background: linear-gradient(90deg, var(--accent), var(--accent-2)); 
+                 -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    nav ul { display: flex; gap: 32px; list-style: none; }
+    nav a { color: var(--muted); text-decoration: none; font-weight: 500; position: relative; }
+    nav a::after {
+      content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 2px;
+      background: var(--accent); transition: width .3s cubic-bezier(.77,0,.18,1);
+    }
+    nav a:hover::after { width: 100%; }
+    #menu-btn { display: none; background: none; border: none; color: var(--text); font-size: 1.5rem; }
+
+    /* Hero */
+    .hero { min-height: 100vh; display: flex; align-items: center; position: relative; }
+    .hero-bg {
+      position: absolute; inset: 0; z-index: -1; opacity: .15;
+      background: radial-gradient(circle at 20% 30%, var(--accent) 0%, transparent 40%),
+                  radial-gradient(circle at 80% 70%, var(--accent-2) 0%, transparent 40%);
+    }
+    .hero h1 { 
+      font-size: clamp(2.5rem, 8vw, 5rem); line-height: 1.05; margin-bottom: 24px;
+      font-weight: 800; letter-spacing: -2px;
+    }
+    .hero h1 .line { display: block; overflow: hidden; }
+    .hero h1 .line span { display: inline-block; transform: translateY(110%); }
+    .hero p { 
+      color: var(--muted); font-size: 1.2rem; margin-bottom: 32px; max-width: 45ch;
+      opacity: 0; transform: translateY(20px);
+    }
+    .btn {
+      display: inline-block; padding: 16px 32px; background: var(--accent); color: #fff;
+      text-decoration: none; border-radius: 12px; font-weight: 600; position: relative;
+      overflow: hidden; opacity: 0; transform: translateY(20px);
+    }
+    .btn::before {
+      content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,.2), transparent);
+      transition: left .6s;
+    }
+    .btn:hover::before { left: 100%; }
+
+    /* Sections */
+    section { padding: 120px 0; position: relative; }
+    h2 { font-size: 2.5rem; margin-bottom: 48px; font-weight: 700; letter-spacing: -1px; }
+    .reveal { opacity: 0; transform: translateY(40px); }
+
+    /* Projects */
+    .grid { display: grid; gap: 24px; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); }
+    .card {
+      background: var(--card); padding: 32px; border-radius: 16px; border: 1px solid var(--border);
+      transition: transform .4s cubic-bezier(.22,1,.36,1), border-color .4s;
+      will-change: transform;
+    }
+    .card:hover { transform: translateY(-8px); border-color: var(--accent); }
+    .card h3 { margin-bottom: 12px; font-size: 1.3rem; }
+    .card p { color: var(--muted); margin-bottom: 20px; }
+    .tag { 
+      display: inline-block; font-size: .85rem; padding: 6px 12px; background: var(--border); 
+      border-radius: 8px; margin: 16px 8px 0 0; color: var(--muted); font-weight: 500;
+    }
+
+    /* Contact */
+    form { display: grid; gap: 20px; max-width: 600px; }
+    .field { position: relative; }
+    input, textarea {
+      width: 100%; padding: 16px; background: var(--card); border: 1px solid var(--border);
+      border-radius: 12px; color: var(--text); font-family: inherit; font-size: 1rem;
+      transition: border-color .3s;
+    }
+    input:focus, textarea:focus { outline: none; border-color: var(--accent); }
+    
+    footer { text-align: center; padding: 60px 0; color: var(--muted); border-top: 1px solid var(--border); }
+
+    /* Mobile */
+    @media (max-width: 768px) {
+      nav ul { display: none; position: fixed; top: 80px; left: 0; right: 0;
+               background: var(--bg); padding: 24px; flex-direction: column; gap: 24px;
+               border-bottom: 1px solid var(--border); }
+      nav ul.active { display: flex; }
+      #menu-btn { display: block; }
+      .cursor { display: none; }
+      section { padding: 80px 0; }
+    }
+  </style>
+</head>
+<body>
+  <div class="cursor"></div>
+  
+  <header>
+    <div class="container">
+      <nav>
+        <div class="logo">your<span>name</span></div>
+        <ul id="nav-links">
+          <li><a href="#about">About</a></li>
+          <li><a href="#work">Work</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+        <button id="menu-btn">☰</button>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero-bg"></div>
+      <div class="container">
+        <h1>
+          <div class="line"><span>Creative</span></div>
+          <div class="line"><span>Developer &</span></div>
+          <div class="line"><span>Designer</span></div>
+        </h1>
+        <p>Based in Delhi. I craft fast, fluid web experiences with attention to motion and detail. Currently exploring 3D on the web and generative UI.</p>
+        <a href="#work" class="btn magnetic">View My Work</a>
+      </div>
+    </section>
+
+    <section id="about" class="container">
+      <h2 class="reveal">About</h2>
+      <p class="reveal" style="color:var(--muted); font-size:1.1rem; max-width:65ch; line-height:1.7;">
+        I’m obsessed with the space where design meets engineering. 3+ years building products that feel alive. 
+        I believe great UX is invisible, but great motion is memorable. When I’m not coding, I’m probably taking photos or learning Blender.
+      </p>
+    </section>
+
+    <section id="work" class="container">
+      <h2 class="reveal">Selected Work</h2>
+      <div class="grid">
+        <div class="card reveal">
+          <h3>Realtime Dashboard</h3>
+          <p>Analytics platform handling 1M+ events/day. Focused on optimistic UI and micro-interactions to make data feel instant.</p>
+          <span class="tag">Next.js</span><span class="tag">WebSockets</span><span class="tag">GSAP</span>
+        </div>
+        <div class="card reveal">
+          <h3>3D Product Configurator</h3>
+          <p>WebGL experience for customizing sneakers. 60fps on mobile through aggressive LOD and texture streaming.</p>
+          <span class="tag">Three.js</span><span class="tag">React</span><span class="tag">GLSL</span>
+        </div>
+        <div class="card reveal">
+          <h3>Open Source UI Kit</h3>
+          <p>2.1k stars. Accessible components with built-in motion. Docs site uses the kit to dogfood everything.</p>
+          <span class="tag">TypeScript</span><span class="tag">Framer Motion</span>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="container">
+      <h2 class="reveal">Let’s Talk</h2>
+      <form id="contact-form" class="reveal">
+        <div class="field"><input type="text" placeholder="Name" required></div>
+        <div class="field"><input type="email" placeholder="Email" required></div>
+        <div class="field"><textarea rows="5" placeholder="Your idea in a sentence or two" required></textarea></div>
+        <button type="submit" class="btn magnetic">Send Message</button>
+      </form>
+      <p id="form-status" style="margin-top:16px; color:var(--muted);"></p>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <p>© <span id="year"></span> Your Name — Built with care in Delhi</p>
+    </div>
+  </footer>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script>
+    gsap.registerPlugin(ScrollTrigger);
+
+    // 1. Page load sequence
+    const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
+    tl.to("header", { y: 0, duration: 0.8, delay: 0.2 })
+      .to(".hero h1 .line span", { y: 0, stagger: 0.1, duration: 1 }, "-=0.4")
+      .to(".hero p", { opacity: 1, y: 0, duration: 0.8 }, "-=0.6")
+      .to(".hero .btn", { opacity: 1, y: 0, duration: 0.8 }, "-=0.6");
+
+    // 2. Parallax hero background
+    gsap.to(".hero-bg", {
+      yPercent: 30,
+      ease: "none",
+      scrollTrigger: {
+        trigger: ".hero",
+        start: "top top",
+        end: "bottom top",
+        scrub: true
+      }
+    });
+
+    // 3. Scroll reveals
+    gsap.utils.toArray(".reveal").forEach(el => {
+      gsap.to(el, {
+        opacity: 1,
+        y: 0,
+        duration: 0.8,
+        ease: "power2.out",
+        scrollTrigger: {
+          trigger: el,
+          start: "top 85%",
+          toggleActions: "play none none reverse"
+        }
+      });
+    });
+
+    // 4. Custom cursor
+    const cursor = document.querySelector('.cursor');
+    document.addEventListener('mousemove', e => {
+      gsap.to(cursor, { x: e.clientX, y: e.clientY, duration: 0.1 });
+    });
+    document.querySelectorAll('a, button, .card').forEach(el => {
+      el.addEventListener('mouseenter', () => cursor.classList.add('grow'));
+      el.addEventListener('mouseleave', () => cursor.classList.remove('grow'));
+    });
+
+    // 5. Magnetic buttons
+    document.querySelectorAll('.magnetic').forEach(btn => {
+      btn.addEventListener('mousemove', e => {
+        const rect = btn.getBoundingClientRect();
+        const x = e.clientX - rect.left - rect.width / 2;
+        const y = e.clientY - rect.top - rect.height / 2;
+        gsap.to(btn, { x: x * 0.3, y: y * 0.3, duration: 0.3 });
+      });
+      btn.addEventListener('mouseleave', () => {
+        gsap.to(btn, { x: 0, y: 0, duration: 0.5, ease: "elastic.out(1, 0.3)" });
+      });
+    });
+
+    // 6. Mobile menu
+    const menuBtn = document.getElementById('menu-btn');
+    const navLinks = document.getElementById('nav-links');
+    menuBtn.addEventListener('click', () => navLinks.classList.toggle('active'));
+    document.querySelectorAll('nav a').forEach(link => {
+      link.addEventListener('click', () => navLinks.classList.remove('active'));
+    });
+
+    // 7. Form + year
+    document.getElementById('contact-form').addEventListener('submit', e => {
+      e.preventDefault();
+      document.getElementById('form-status').textContent = "Demo form — connect to Formspree, Resend, or Netlify Forms to make it live.";
+      e.target.reset();
+    });
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
